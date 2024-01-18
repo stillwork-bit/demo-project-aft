@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+    <servers>
+    </servers>
+
+    <activeProfiles>
+        <activeProfile>maven-public</activeProfile>
+    </activeProfiles>
+    <localRepository>/root/.m2/repository</localRepository>
+    <profiles>
+        <profile>
+            <id>maven-public</id>
+            <repositories>
+                <repository>
+                    <id>maven-central</id>
+                    <url>https://repo.maven.apache.org/maven2/</url>
+                </repository>
+                <repository>
+                    <id>viclovsky</id>
+                    <url>https://dl.bintray.com/viclovsky/maven/</url>
+                </repository>
+            </repositories>
+        </profile>
+    </profiles>
+</settings>

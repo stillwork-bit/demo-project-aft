@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.tan</groupId>
+        <artifactId>demo-project-aft</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>integration-tests</artifactId>
+
+    <name>Модуль интеграционных тестов</name>
+    <description>В этот модуль проект с автотестами</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <!--Maven-->
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+        <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <!--Framework-->
+        <rest-assured.version>4.2.1</rest-assured.version>
+        <swagger-coverage-version>1.3.5</swagger-coverage-version>
+        <!--Junit-->
+        <junit.jupiter.version>5.7.0</junit.jupiter.version>
+        <junit-platform.version>1.8.2</junit-platform.version>
+        <assertj-core.version>3.19.0</assertj-core.version>
+        <lombok.version>1.18.20</lombok.version>
+        <!--Allure-->
+        <allure-junit5.version>2.13.8</allure-junit5.version>
+        <allure-maven.version>2.11.2</allure-maven.version>
+        <allure-selenide.version>2.13.8</allure-selenide.version>
+        <allure-rest-assured.version>2.13.8</allure-rest-assured.version>
+
+        <commons-logging.version>1.2</commons-logging.version>
+        <codeborne-pdf.verson>1.6.1</codeborne-pdf.verson>
+        <codeborne-xls.verson>1.4.3</codeborne-xls.verson>
+        <jsch.version>0.1.55</jsch.version>
+        <aspectj.version>1.9.7</aspectj.version>
+        <com.typesafe.config.version>1.4.1</com.typesafe.config.version>
+        <org.json.version>20201115</org.json.version>
+        <gson.version>2.8.7</gson.version>
+        <slf4j.version>1.7.30</slf4j.version>
+        <jsonpath.version>2.6.0</jsonpath.version>
+        <commons-codec.version>1.16.0</commons-codec.version>
+        <jackson-core.version>2.14.1</jackson-core.version>
+        <awaitility.version>3.0.0</awaitility.version>
+        <!-- Selenide -->
+        <selenide.version>6.19.1</selenide.version>
+        <codeborne.selenide.version>6.19.1</codeborne.selenide.version>
+        <!--Тестовые модули-->
+        <common.version>1.0.0</common.version>
+        <!--Test-->
+        <test-it-maven-plugin.verison>1.25.7</test-it-maven-plugin.verison>
+        <projectIdDSO>115109</projectIdDSO>
+        <projectIdRegion>335</projectIdRegion>
+        <!--Kafka-->
+        <kafka-clients.version>3.0.0</kafka-clients.version>
+    </properties>
+
+
+    <build>
+        <defaultGoal>clean</defaultGoal>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>${maven.compiler.plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+                    </argLine>
+                    <parallel>classes</parallel>
+                    <properties>
+                        <property>
+                            <name>listener</name>
+                            <value>ru.yandex.qatools.allure.junit.AllureRunListener</value>
+                        </property>
+                        <property>
+                            <name>allure.results.directory</name>
+                            <value>${project.build.directory}/target/allure-results</value>
+                        </property>
+                    </properties>
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <rerunFailingTestsCount>3</rerunFailingTestsCount>
+                    <systemPropertyVariables>
+                        <allure.results.directory>${project.build.directory}/allure-results
+                        </allure.results.directory>
+                    </systemPropertyVariables>
+                    <threadCount>5</threadCount>
+                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>${maven-surefire-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <artifactId>aspectjweaver</artifactId>
+                        <groupId>org.aspectj</groupId>
+                        <version>${aspectj.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <artifactId>allure-maven</artifactId>
+                <configuration>
+                    <properties>
+                        <allure.results.directory>${project.build.directory}/target/allure-results
+                        </allure.results.directory>
+                    </properties>
+                    <reportVersion>${allure-junit5.version}</reportVersion>
+                </configuration>
+                <groupId>io.qameta.allure</groupId>
+                <version>${allure-maven.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.viclovsky.swagger.coverage</groupId>
+            <artifactId>swagger-coverage-rest-assured</artifactId>
+            <version>${swagger-coverage-version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>junit-jupiter</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <version>${junit.jupiter.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>commons-logging</artifactId>
+            <groupId>commons-logging</groupId>
+            <version>${commons-logging.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>allure-junit5</artifactId>
+            <groupId>io.qameta.allure</groupId>
+            <version>${allure-junit5.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>allure-rest-assured</artifactId>
+            <groupId>io.qameta.allure</groupId>
+            <version>${allure-rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>rest-assured</artifactId>
+            <groupId>io.rest-assured</groupId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>rest-assured-common</artifactId>
+            <groupId>io.rest-assured</groupId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>json-path</artifactId>
+            <groupId>io.rest-assured</groupId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>json-schema-validator</artifactId>
+            <groupId>io.rest-assured</groupId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>xml-path</artifactId>
+            <groupId>io.rest-assured</groupId>
+            <version>${rest-assured.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>assertj-core</artifactId>
+            <groupId>org.assertj</groupId>
+            <version>${assertj-core.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>lombok</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>json</artifactId>
+            <groupId>org.json</groupId>
+            <version>${org.json.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>gson</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <version>${gson.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>config</artifactId>
+            <groupId>com.typesafe</groupId>
+            <version>${com.typesafe.config.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-selenide</artifactId>
+            <version>${allure-selenide.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>pdf-test</artifactId>
+            <version>${codeborne-pdf.verson}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>xls-test</artifactId>
+            <version>${codeborne-xls.verson}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>${jsch.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>slf4j-api</artifactId>
+            <groupId>org.slf4j</groupId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>${jsonpath.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-core.version}</version>
+        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+        <!--            <artifactId>jackson-databind</artifactId>-->
+        <!--            <version>${jackson-core.version}</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.fasterxml.jackson.core</groupId>-->
+        <!--            <artifactId>jackson-annotations</artifactId>-->
+        <!--            <version>${jackson-core.version}</version>-->
+        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.awaitility</groupId>
+            <artifactId>awaitility</artifactId>
+            <version>${awaitility.version}</version>
+        </dependency>
+        <!-- selenide  -->
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>${codeborne.selenide.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.codeborne</groupId>
+            <artifactId>selenide</artifactId>
+            <version>${selenide.version}</version>
+        </dependency>
+
+        <!-- Kafka  -->
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>${kafka-clients.version}</version>
+        </dependency>
+
+        <!-- common module  -->
+        <dependency>
+            <groupId>org.tan</groupId>
+            <artifactId>common</artifactId>
+            <version>${common.version}</version>
+        </dependency>
+
+    </dependencies>
+
+<!--    <repositories>-->
+<!--        <repository>-->
+<!--            <id>viclovsky</id>-->
+<!--            <url>https://dl.bintray.com/viclovsky/maven/</url>-->
+<!--        </repository>-->
+<!--    </repositories>-->
+</project>

@@ -1,0 +1,20 @@
+version: "3"
+services:
+  test-in-docker:
+    build:
+      context: .
+#      системные переменные можно путем перечисления в args
+      args:
+        ENV_CONFIG_FILE: application-local.conf
+        CONTOUR_ENV: IFT
+        TEST_GROUPS: RegressAPI
+        LOGIN: SET_TEST_LOGIN
+        PASSWORD: SET_TEST_PASSWORD
+        SELENIUM_SERVER: SET_TEST_SELENIUM_SERVER
+        BASE_URL: https://petstore3.swagger.io/api/v3
+        BASE_URL_UI: http://www.northpole.com/
+      dockerfile: ./Dockerfile
+#      системные переменные можно задать через конфиг файл .env
+    env_file:
+      - .env
+

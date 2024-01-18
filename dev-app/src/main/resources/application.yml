@@ -1,0 +1,54 @@
+server:
+  port: 8082
+
+spring:
+  application:
+        name: dev-utils-application
+  cloud:
+    zookeeper:
+      enabled: "true"
+      connect-string: "kubernetes.docker.internal:22181"
+  kafka:
+    bootstrap-servers: "kubernetes.docker.internal:29092"
+    groupId: "dev-app-tan-group"
+    consumer:
+      topics-title:
+        consumer: "event"
+      properties:
+        spring.json.trusted.packages: "*"
+  properties:
+    hibernate:
+      implicit_naming_strategy: default
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: "jdbc:postgresql://localhost:5433/test_db?currentSchema=test_schema"
+    username: "postgres"
+    password: "postgress"
+  jackson:
+      serialization:
+          fail-on-empty-beans: false
+  jpa:
+    hibernate:
+      ddl-auto: "validate" #validate "create"
+    properties:
+      hibernate:
+        default_schema: "test_schema"
+        enable_lazy_load_no_trans: "false"
+  session:
+    store-type: NONE #jdbc
+    jdbc:
+      initialize-schema: ALWAYS #NEVER
+    show-sql: false
+
+kafka:
+  ssl:
+    enabled: false
+    trustStorePath: ""
+    trustStorePassword: ""
+    keyStorePath: ""
+    keyStorePassword: ""
+    keyStoreKeyPassword: ""
+
+logging:
+  level:
+    org.apache.zookeeper.ClientCnxn: INFO
